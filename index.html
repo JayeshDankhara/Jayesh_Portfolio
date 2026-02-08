@@ -5,44 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jayesh Dankhara | Mobile App Developer</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border: rgba(99, 102, 241, 0.2);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e1a;
-            color: #e5e7eb;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
-        /* Animated background */
-        .bg-animation {
+        /* Animated Background */
+        .background-wrapper {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f3a 50%, #0a0e1a 100%);
+            overflow: hidden;
         }
 
-        .bg-animation::before {
-            content: '';
+        .gradient-bg {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveGrid 20s linear infinite;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(99, 102, 241, 0.15), transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(139, 92, 246, 0.15), transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(236, 72, 153, 0.1), transparent 50%);
         }
 
-        @keyframes moveGrid {
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+            background-size: 100px 100px;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
             0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            100% { transform: translate(100px, 100px); }
         }
 
         /* Navigation */
@@ -50,122 +80,193 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 14, 26, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            padding: 1.2rem 0;
+            transition: all 0.3s ease;
         }
 
-        nav .container {
-            max-width: 1200px;
+        nav.scrolled {
+            padding: 0.8rem 0;
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: -1px;
         }
 
-        nav .nav-links {
+        .nav-menu {
             display: flex;
-            gap: 30px;
+            gap: 2.5rem;
             list-style: none;
+            align-items: center;
         }
 
-        nav .nav-links a {
-            color: #e5e7eb;
+        .nav-menu a {
+            color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.3s;
             font-weight: 500;
-        }
-
-        nav .nav-links a:hover {
-            color: #3b82f6;
-        }
-
-        /* Header */
-        header {
-            padding: 180px 40px 120px;
-            text-align: center;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 3rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 1s ease;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+            letter-spacing: -2px;
         }
 
-        .hero-content .subtitle {
-            font-size: 1.5rem;
-            color: #94a3b8;
-            margin-bottom: 30px;
-            animation: fadeInUp 1s ease 0.2s backwards;
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
         }
 
-        .hero-content p {
+        .hero .description {
             font-size: 1.1rem;
-            color: #cbd5e1;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            animation: fadeInUp 1s ease 0.4s backwards;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.6s backwards;
         }
 
-        .cta-buttons {
+        .hero-buttons {
             display: flex;
-            gap: 20px;
+            gap: 1.5rem;
             justify-content: center;
-            animation: fadeInUp 1s ease 0.6s backwards;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.8s backwards;
         }
 
         .btn {
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
             font-weight: 600;
-            transition: all 0.3s;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
             display: inline-block;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
         }
 
         .btn-secondary {
             background: transparent;
-            color: #3b82f6;
-            border: 2px solid #3b82f6;
+            color: var(--primary);
+            border: 2px solid var(--primary);
         }
 
         .btn-secondary:hover {
-            background: rgba(59, 130, 246, 0.1);
-            transform: translateY(-2px);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-3px);
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -173,45 +274,126 @@
             }
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 40px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
 
-        /* Section Titles */
-        .section-title {
+        .stat-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
             text-align: center;
-            margin-bottom: 60px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .section-title h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
         }
 
-        .section-title .underline {
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Section Styles */
+        .section {
+            max-width: 1400px;
             margin: 0 auto;
-            border-radius: 2px;
+            padding: 6rem 3rem;
         }
 
-        /* Cards */
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
         .card {
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            transition: all 0.3s;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
@@ -223,77 +405,151 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
         }
 
         .card:hover::before {
             opacity: 1;
         }
 
-        /* Skills */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
+        .card-content {
+            position: relative;
+            z-index: 1;
         }
 
-        .skill-tag {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 12px 20px;
-            border-radius: 25px;
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
             text-align: center;
             font-weight: 500;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .skill-tag::before {
+        .skill-item::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(59, 130, 246, 0.2);
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .skill-item:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .skill-item:hover::before {
+            left: 100%;
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin-top: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.55rem;
+            top: 0.5rem;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border: 4px solid var(--bg-dark);
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            z-index: 2;
         }
 
-        .skill-tag:hover::before {
-            width: 200%;
-            height: 200%;
+        .timeline-role {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
 
-        .skill-tag:hover {
-            border-color: #3b82f6;
-            transform: scale(1.05);
+        .timeline-company {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        /* Projects */
+        .timeline-date {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Projects Grid */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
         .project-card {
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
@@ -303,328 +559,603 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 4px;
+            width: 5px;
             height: 100%;
-            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
             transform: scaleY(0);
-            transition: transform 0.3s;
+            transform-origin: top;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 25px 70px rgba(99, 102, 241, 0.3);
         }
 
         .project-card:hover::after {
             transform: scaleY(1);
         }
 
-        .project-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+        .project-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
-        .project-card h3 {
-            color: #60a5fa;
-            font-size: 1.5rem;
-            margin-bottom: 12px;
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
         }
 
-        .project-card .tech-stack {
+        .tech-tags {
             display: flex;
-            gap: 8px;
-            margin-top: 15px;
             flex-wrap: wrap;
+            gap: 0.8rem;
         }
 
-        .tech-badge {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            padding: 4px 12px;
-            border-radius: 12px;
+        .tech-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            color: var(--primary);
             font-size: 0.85rem;
+            font-weight: 600;
         }
 
-        /* Stats */
-        .stats {
+        /* Education Grid */
+        .education-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .stat-card {
-            text-align: center;
-            padding: 30px;
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 16px;
-            transition: all 0.3s;
+        .education-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
         }
 
-        .stat-card:hover {
-            transform: scale(1.05);
-            border-color: rgba(59, 130, 246, 0.5);
+        .education-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
         }
 
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .education-degree {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
         }
 
-        .stat-label {
-            color: #94a3b8;
-            margin-top: 10px;
+        .education-location {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        /* Contact */
+        .education-status {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .education-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Interests List */
+        .interests-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .interest-item {
+            padding: 1.5rem 0;
+            padding-left: 3rem;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .interest-item:last-child {
+            border-bottom: none;
+        }
+
+        .interest-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            top: 1.5rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .interest-item:hover {
+            padding-left: 3.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Contact Section */
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .contact-item {
+        .contact-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
             display: flex;
             align-items: center;
-            gap: 20px;
-            padding: 25px;
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
-            transition: all 0.3s;
+            gap: 1.5rem;
+            transition: all 0.4s ease;
         }
 
-        .contact-item:hover {
-            transform: translateX(5px);
-            border-color: rgba(59, 130, 246, 0.5);
+        .contact-card:hover {
+            transform: translateX(10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
         }
 
         .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            flex-shrink: 0;
         }
 
-        .contact-item a {
-            color: #60a5fa;
+        .contact-info h3 {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info a {
+            color: var(--primary);
             text-decoration: none;
-            word-break: break-all;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
         }
 
-        .contact-item a:hover {
-            color: #3b82f6;
+        .contact-info a:hover {
+            color: var(--secondary);
         }
 
         /* Footer */
         footer {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 3rem;
             text-align: center;
-            padding: 40px 20px;
-            background: rgba(2, 6, 23, 0.8);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(59, 130, 246, 0.1);
         }
 
         footer p {
-            color: #64748b;
+            color: var(--text-muted);
+            font-size: 1rem;
         }
 
-        /* Responsive */
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 0 2rem;
+            }
+
+            .section {
+                padding: 4rem 2rem;
+            }
+
+            .hero {
+                padding: 6rem 2rem 3rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .hero-content h1 {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(15, 23, 42, 0.98);
+                flex-direction: column;
+                padding: 3rem;
+                gap: 2rem;
+                transition: left 0.4s ease;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
                 font-size: 2.5rem;
             }
 
-            .hero-content .subtitle {
-                font-size: 1.2rem;
+            .hero .subtitle {
+                font-size: 1.3rem;
             }
 
-            .cta-buttons {
+            .hero-buttons {
                 flex-direction: column;
-                align-items: center;
             }
 
-            nav .nav-links {
-                gap: 15px;
-            }
-
-            .section-title h2 {
-                font-size: 2rem;
+            .stats {
+                grid-template-columns: 1fr;
+                padding: 2rem;
             }
 
             .projects-grid,
-            .skills-grid {
+            .education-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
             }
         }
 
-        /* Scroll animations */
-        .fade-in {
+        /* Scroll Reveal Animation */
+        .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
         }
 
-        .fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .fade-in:nth-child(3) { animation-delay: 0.3s; }
-        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
+    <div class="background-wrapper">
+        <div class="gradient-bg"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
+    <!-- Navigation -->
     <nav>
-        <div class="container">
-            <div class="logo">JD</div>
-            <ul class="nav-links">
+        <div class="nav-container">
+            <div class="nav-logo">JD</div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <header>
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="hero-content">
+            <div class="hero-badge">Available for Opportunities</div>
             <h1>Jayesh Dankhara</h1>
-            <p class="subtitle">Android & Flutter Developer</p>
-            <p>Crafting exceptional mobile experiences with over 6 years of expertise in Android and Flutter development. Published 15+ apps on Google Play Store.</p>
-            <div class="cta-buttons">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
+            <p class="subtitle">Senior Android & Flutter Developer | Mobile App Security Enthusiast</p>
+            <p class="description">
+                Experienced Mobile Application Developer with 6+ years of expertise in Android (Kotlin/Java) and Flutter. Successfully delivered 15+ production applications across healthcare, e-commerce, utility, and enterprise domains with strong understanding of clean architecture, performance optimization, and mobile application security.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View My Work</a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch</a>
             </div>
         </div>
-    </header>
+    </section>
 
-    <div class="container">
-        <div class="stats">
-            <div class="stat-card fade-in">
-                <div class="stat-number">6+</div>
-                <div class="stat-label">Years Experience</div>
-            </div>
-            <div class="stat-card fade-in">
-                <div class="stat-number">15+</div>
-                <div class="stat-label">Apps Published</div>
-            </div>
-            <div class="stat-card fade-in">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Client Satisfaction</div>
-            </div>
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Apps Published</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Client Satisfaction</div>
         </div>
     </div>
 
-    <section id="about" class="container">
-        <div class="section-title">
-            <h2>About Me</h2>
-            <div class="underline"></div>
+    <!-- About Section -->
+    <section id="about" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">About Me</div>
+            <h2 class="section-title">Professional Summary</h2>
         </div>
-        <div class="card fade-in">
-            <p style="font-size: 1.1rem; line-height: 1.8;">
-                I am a passionate mobile application developer with over 6 years of experience specializing in Android and Flutter development. Throughout my career, I've successfully developed and published 15+ applications on the Google Play Store, reaching thousands of users worldwide. Currently, I'm expanding my expertise in Cybersecurity and Mobile App Security to build even more robust and secure applications. I thrive on solving complex problems and creating intuitive, performant mobile experiences that users love.
-            </p>
-        </div>
-    </section>
-
-    <section id="skills" class="container">
-        <div class="section-title">
-            <h2>Skills & Technologies</h2>
-            <div class="underline"></div>
-        </div>
-        <div class="card fade-in">
-            <div class="skills-grid">
-                <div class="skill-tag">Android</div>
-                <div class="skill-tag">Kotlin</div>
-                <div class="skill-tag">Java</div>
-                <div class="skill-tag">Flutter</div>
-                <div class="skill-tag">Dart</div>
-                <div class="skill-tag">Firebase</div>
-                <div class="skill-tag">REST APIs</div>
-                <div class="skill-tag">MVVM</div>
-                <div class="skill-tag">Git</div>
-                <div class="skill-tag">CI/CD</div>
-                <div class="skill-tag">App Security</div>
-                <div class="skill-tag">Jetpack Compose</div>
+        <div class="card">
+            <div class="card-content">
+                <p style="font-size: 1.15rem; line-height: 1.9; margin-bottom: 1.5rem;">
+                    I am a passionate and experienced Mobile Application Developer with over 6 years of expertise specializing in Android (Kotlin/Java) and Flutter development. Throughout my career, I've successfully delivered 15+ production applications across diverse domains including healthcare, e-commerce, utility, and enterprise solutions, reaching thousands of users worldwide.
+                </p>
+                <p style="font-size: 1.15rem; line-height: 1.9;">
+                    I have a strong understanding of clean architecture, MVVM design patterns, and performance optimization techniques. Currently pursuing advanced knowledge in Cybersecurity with a focus on mobile app penetration testing, secure development practices, and reverse engineering protection. I thrive on solving complex problems and creating intuitive, performant, and secure mobile experiences that users love.
+                </p>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="container">
-        <div class="section-title">
-            <h2>Featured Projects</h2>
-            <div class="underline"></div>
+    <!-- Skills Section -->
+    <section id="skills" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Technical Expertise</div>
+            <h2 class="section-title">Skills & Technologies</h2>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="skills-grid">
+                    <div class="skill-item">Android (Kotlin, Java)</div>
+                    <div class="skill-item">Flutter & Dart</div>
+                    <div class="skill-item">Jetpack Compose</div>
+                    <div class="skill-item">MVVM Architecture</div>
+                    <div class="skill-item">Clean Architecture</div>
+                    <div class="skill-item">Firebase (Auth, FCM, Firestore)</div>
+                    <div class="skill-item">REST & gRPC APIs</div>
+                    <div class="skill-item">CI/CD Pipelines</div>
+                    <div class="skill-item">Mobile App Security</div>
+                    <div class="skill-item">Reverse Engineering Protection</div>
+                    <div class="skill-item">Git & Version Control</div>
+                    <div class="skill-item">Jetpack Components</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Career Journey</div>
+            <h2 class="section-title">Professional Experience</h2>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-role">Flutter Developer</div>
+                        <div class="timeline-company">Omex Infotech</div>
+                        <div class="timeline-date">2024 – Present</div>
+                        <p class="timeline-description">
+                            Working onsite as a Flutter Developer, developing enterprise-level applications with complex business logic and user requirements. Implemented MVVM architecture for better code maintainability and testability. Integrated multiple REST and gRPC APIs for seamless data synchronization. Optimized UI performance resulting in 40% faster load times and improved user experience across various device configurations.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Android Developer</div>
+                        <div class="timeline-company">Freelance / Contract</div>
+                        <div class="timeline-date">2019 – 2024</div>
+                        <p class="timeline-description">
+                            Designed, developed, and deployed Android applications for multiple clients across different industries. Responsible for complete app lifecycle including requirement analysis, system design, development, comprehensive testing, Play Store deployment, and post-launch support. Successfully managed client relationships and delivered projects on time while maintaining high code quality standards. Implemented secure coding practices and proper data encryption for sensitive user information.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Portfolio</div>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">A selection of my recent work and contributions</p>
         </div>
         <div class="projects-grid">
-            <div class="project-card fade-in">
-                <h3>PC Fitment</h3>
-                <p>A comprehensive Flutter application for PC hardware compatibility checking and recommendations. Currently live on Google Play Store with positive user reviews.</p>
-                <div class="tech-stack">
-                    <span class="tech-badge">Flutter</span>
-                    <span class="tech-badge">Firebase</span>
-                    <span class="tech-badge">REST API</span>
+            <div class="project-card">
+                <h3 class="project-title">PC Fitment</h3>
+                <p class="project-description">
+                    A comprehensive Flutter application for PC hardware compatibility checking and recommendations. Implemented clean UI with Material Design principles, Firebase integration for real-time data synchronization, and scalable architecture to handle thousands of hardware configurations. Currently live on Google Play Store with positive user reviews and consistent updates.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Flutter</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">REST API</span>
+                    <span class="tech-tag">MVVM</span>
                 </div>
             </div>
-            <div class="project-card fade-in">
-                <h3>AYAM – Meditation App</h3>
-                <p>An Android application designed for mindfulness and meditation, featuring guided sessions, progress tracking, and a peaceful user experience.</p>
-                <div class="tech-stack">
-                    <span class="tech-badge">Android</span>
-                    <span class="tech-badge">Kotlin</span>
-                    <span class="tech-badge">MVVM</span>
+            <div class="project-card">
+                <h3 class="project-title">AYAM – Meditation App</h3>
+                <p class="project-description">
+                    An Android application focused on mindfulness and meditation, featuring guided audio sessions, progress tracking, offline support for downloaded content, and smooth animations for a peaceful user experience. Implemented custom audio player with background playback support and notification controls.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Android</span>
+                    <span class="tech-tag">Kotlin</span>
+                    <span class="tech-tag">MVVM</span>
+                    <span class="tech-tag">Room DB</span>
                 </div>
             </div>
-            <div class="project-card fade-in">
-                <h3>Crane Management System</h3>
-                <p>Enterprise-level Flutter application for managing crane operations, scheduling, and maintenance tracking with real-time updates and reporting.</p>
-                <div class="tech-stack">
-                    <span class="tech-badge">Flutter</span>
-                    <span class="tech-badge">Firebase</span>
-                    <span class="tech-badge">Cloud Functions</span>
+            <div class="project-card">
+                <h3 class="project-title">Crane Management System</h3>
+                <p class="project-description">
+                    Enterprise-level Flutter application for managing crane operations, scheduling, maintenance tracking, and comprehensive reporting. Features include real-time GPS tracking, push notifications for maintenance alerts, PDF report generation, and role-based access control for different user types.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Flutter</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Cloud Functions</span>
+                    <span class="tech-tag">Google Maps</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">Mobile App Security Research</h3>
+                <p class="project-description">
+                    Research-focused work on Android reverse engineering, code obfuscation techniques, and secure API communication. Explored various security vulnerabilities in mobile applications and implemented protection mechanisms including SSL pinning, root detection, and encrypted local storage.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Android Security</span>
+                    <span class="tech-tag">Reverse Engineering</span>
+                    <span class="tech-tag">ProGuard</span>
+                    <span class="tech-tag">Cryptography</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="container">
-        <div class="section-title">
-            <h2>Let's Connect</h2>
-            <div class="underline"></div>
+    <!-- Education Section -->
+    <section id="education" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Academic Background</div>
+            <h2 class="section-title">Education</h2>
+        </div>
+        <div class="education-grid">
+            <div class="education-card">
+                <h3 class="education-degree">MSc in Cybersecurity</h3>
+                <div class="education-location">United Kingdom</div>
+                <div class="education-status">Ongoing</div>
+                <p class="education-description">
+                    Advanced study in cybersecurity with focus on mobile application security, penetration testing, secure software development, and cryptography. Conducting research on mobile app vulnerabilities and protection mechanisms.
+                </p>
+            </div>
+            <div class="education-card">
+                <h3 class="education-degree">Bachelor's in Computer Engineering</h3>
+                <div class="education-location">India</div>
+                <div class="education-status">Completed</div>
+                <p class="education-description">
+                    Comprehensive education in computer science fundamentals, software engineering principles, data structures, algorithms, and mobile application development. Built strong foundation for professional development career.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Continuous Learning</div>
+            <h2 class="section-title">Certifications & Interests</h2>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <ul class="interests-list">
+                    <li class="interest-item">Google Developer Events & DevFest Participant - Active member of the developer community, attending workshops and networking events</li>
+                    <li class="interest-item">Mobile Penetration Testing - Exploring security vulnerabilities and ethical hacking techniques for mobile applications</li>
+                    <li class="interest-item">AI-powered Mobile Applications - Researching integration of machine learning models and AI capabilities into mobile apps</li>
+                    <li class="interest-item">Continuous Learning & Technical Blogging - Regularly studying new technologies and sharing knowledge through technical articles</li>
+                    <li class="interest-item">Open Source Contributions - Contributing to Flutter and Android open source projects on GitHub</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Get In Touch</div>
+            <h2 class="section-title">Let's Connect</h2>
+            <p class="section-subtitle">I'm always open to discussing new projects and opportunities</p>
         </div>
         <div class="contact-grid">
-            <div class="contact-item fade-in">
+            <div class="contact-card">
                 <div class="contact-icon">📧</div>
-                <div>
-                    <div style="color: #94a3b8; font-size: 0.9rem;">Email</div>
+                <div class="contact-info">
+                    <h3>Email</h3>
                     <a href="mailto:jayesh17296@gmail.com">jayesh17296@gmail.com</a>
                 </div>
             </div>
-            <div class="contact-item fade-in">
+            <div class="contact-card">
                 <div class="contact-icon">💻</div>
-                <div>
-                    <div style="color: #94a3b8; font-size: 0.9rem;">GitHub</div>
+                <div class="contact-info">
+                    <h3>GitHub</h3>
                     <a href="https://github.com/JayeshDankhara" target="_blank">github.com/JayeshDankhara</a>
                 </div>
             </div>
-            <div class="contact-item fade-in">
+            <div class="contact-card">
                 <div class="contact-icon">💼</div>
-                <div>
-                    <div style="color: #94a3b8; font-size: 0.9rem;">LinkedIn</div>
+                <div class="contact-info">
+                    <h3>LinkedIn</h3>
                     <a href="https://www.linkedin.com/in/dankhara-jayesh-429965179/" target="_blank">Connect on LinkedIn</a>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <p>© 2026 Jayesh Dankhara • Designed & Built with passion for mobile development</p>
+        <p>© 2026 Jayesh Dankhara • Crafted with passion for mobile technology</p>
     </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll reveal animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+    </script>
 </body>
 </html>
