@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#161b1a">
+    <title>Jayesh Dankhara | Mobile Security Researcher</title>
+    <meta name="description" content="Jayesh Dankhara — Android/Flutter engineer and MSc Cybersecurity researcher (Sheffield Hallam University), working on ML-based Android malware detection. Open to funded doctoral positions in Europe.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink: #12181a;
+            --ink-2: #1a2224;
+            --panel: #1e2a2b;
+            --paper: #eef1e9;
+            --amber: #d99a3d;
+            --amber-dim: rgba(217, 154, 61, 0.16);
+            --teal: #5e8f83;
+            --text-primary: #eef1e9;
+            --text-secondary: #b7c2ba;
+            --text-muted: #6f7d76;
+            --border: rgba(217, 154, 61, 0.18);
+            --border-quiet: rgba(238, 241, 233, 0.08);
+            --serif: 'Fraunces', Georgia, serif;
+            --mono: 'IBM Plex Mono', 'SF Mono', monospace;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--ink);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Background: quiet hex-grid, evokes a disassembly / byte-map view */
+        .background-wrapper {
+            position: fixed; inset: 0; z-index: -1; overflow: hidden;
+        }
+        .gradient-bg {
+            position: absolute; width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 15% 20%, rgba(217, 154, 61, 0.07), transparent 45%),
+                radial-gradient(ellipse at 85% 75%, rgba(94, 143, 131, 0.10), transparent 50%);
+        }
+        .grid-overlay {
+            position: absolute; width: 100%; height: 100%;
+            background-image:
+                linear-gradient(rgba(238, 241, 233, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(238, 241, 233, 0.035) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(18, 24, 26, 0.82);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-quiet);
+            z-index: 1000; padding: 1.1rem 0;
+            transition: all 0.3s ease;
+        }
+        nav.scrolled { padding: 0.75rem 0; background: rgba(18, 24, 26, 0.97); }
+
+        .nav-container {
+            max-width: 1280px; margin: 0 auto; padding: 0 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .nav-logo {
+            font-family: var(--mono); font-size: 1.05rem; font-weight: 600;
+            color: var(--amber); letter-spacing: 1px;
+        }
+        .nav-logo span { color: var(--text-muted); }
+
+        .nav-menu { display: flex; gap: 2.3rem; list-style: none; align-items: center; }
+        .nav-menu a {
+            color: var(--text-secondary); text-decoration: none;
+            font-weight: 500; font-size: 0.92rem; letter-spacing: 0.2px;
+            transition: color 0.25s ease; position: relative;
+        }
+        .nav-menu a::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; width: 0; height: 1px;
+            background: var(--amber); transition: width 0.25s ease;
+        }
+        .nav-menu a:hover { color: var(--text-primary); }
+        .nav-menu a:hover::after { width: 100%; }
+
+        .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
+        .menu-toggle span { width: 26px; height: 2px; background: var(--text-primary); transition: all 0.3s ease; }
+
+        /* Hero */
+        .hero {
+            min-height: 92vh; display: flex; align-items: center; justify-content: center;
+            padding: 8rem 3rem 3rem; position: relative;
+        }
+        .hero-content { max-width: 900px; width: 100%; text-align: left; }
+
+        .hero-eyebrow {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-family: var(--mono); font-size: 0.82rem; color: var(--amber);
+            margin-bottom: 1.8rem; letter-spacing: 0.3px;
+        }
+        .hero-eyebrow::before { content: '›'; color: var(--teal); font-weight: 700; }
+
+        .hero h1 {
+            font-family: var(--serif); font-optical-sizing: auto;
+            font-size: clamp(2.8rem, 6.5vw, 4.6rem); font-weight: 600; line-height: 1.05;
+            margin-bottom: 1rem; letter-spacing: -1px; color: var(--text-primary);
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--teal);
+            margin-bottom: 1.7rem; font-weight: 500; font-family: var(--mono);
+        }
+
+        .hero .description {
+            font-size: 1.08rem; color: var(--text-secondary);
+            max-width: 680px; margin: 0 0 2.6rem; line-height: 1.85;
+        }
+
+        .hero-buttons { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+        .btn {
+            padding: 0.85rem 1.9rem; border-radius: 2px; font-weight: 600; font-size: 0.92rem;
+            text-decoration: none; transition: all 0.25s ease; display: inline-block;
+            font-family: var(--sans); letter-spacing: 0.2px;
+        }
+        .btn-primary { background: var(--amber); color: var(--ink); }
+        .btn-primary:hover { background: #e8ac54; transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-quiet); }
+        .btn-secondary:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+
+        /* Metrics strip */
+        .stats {
+            max-width: 1280px; margin: 0 auto; padding: 2.5rem 3rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1px; background: var(--border-quiet);
+            border: 1px solid var(--border-quiet);
+        }
+        .stat-card { background: var(--ink); padding: 2.2rem 1.8rem; }
+        .stat-number {
+            font-family: var(--serif); font-size: 2.6rem; font-weight: 600; color: var(--amber);
+            line-height: 1;
+        }
+        .stat-label {
+            color: var(--text-muted); font-size: 0.85rem; margin-top: 0.6rem;
+            font-family: var(--mono); letter-spacing: 0.3px;
+        }
+
+        /* Sections */
+        .section { max-width: 1280px; margin: 0 auto; padding: 5.5rem 3rem; }
+
+        .section-header { margin-bottom: 3.2rem; max-width: 700px; }
+        .section-tag {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-family: var(--mono); font-size: 0.78rem; color: var(--amber);
+            margin-bottom: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;
+        }
+        .section-tag::before { content: ''; width: 22px; height: 1px; background: var(--amber); }
+        .section-title {
+            font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 600;
+            margin-bottom: 0.9rem; letter-spacing: -0.5px;
+        }
+        .section-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 640px; }
+
+        .card {
+            background: var(--panel); border: 1px solid var(--border-quiet);
+            border-radius: 4px; padding: 2.4rem;
+        }
+
+        /* Research interests */
+        .research-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem; margin-top: 2rem;
+        }
+        .research-item {
+            border: 1px solid var(--border-quiet); border-left: 2px solid var(--amber);
+            padding: 1.6rem 1.7rem; background: var(--panel); transition: all 0.25s ease;
+        }
+        .research-item:hover { border-left-color: var(--teal); transform: translateX(3px); }
+        .research-item h4 {
+            font-family: var(--serif); font-size: 1.15rem; font-weight: 600; margin-bottom: 0.6rem;
+        }
+        .research-item p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Dissertation highlight */
+        .diss-card {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 4px; padding: 3rem; margin-top: 2.5rem;
+        }
+        .diss-label {
+            font-family: var(--mono); font-size: 0.78rem; color: var(--teal);
+            text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem;
+        }
+        .diss-title {
+            font-family: var(--serif); font-size: 1.6rem; font-weight: 600; line-height: 1.35;
+            margin-bottom: 1.2rem; max-width: 750px;
+        }
+        .diss-meta {
+            display: flex; flex-wrap: wrap; gap: 1.8rem; margin-bottom: 1.8rem;
+            font-size: 0.92rem; color: var(--text-muted);
+        }
+        .diss-meta strong { color: var(--text-secondary); font-weight: 500; }
+        .diss-body { color: var(--text-secondary); max-width: 780px; margin-bottom: 2rem; }
+        .metric-chips { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+        .metric-chip {
+            font-family: var(--mono); font-size: 0.85rem; padding: 0.6rem 1rem;
+            background: var(--amber-dim); border: 1px solid var(--border); color: var(--amber);
+            border-radius: 2px;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 0.9rem; margin-top: 2rem;
+        }
+        .skill-item {
+            background: var(--panel); border: 1px solid var(--border-quiet);
+            padding: 1rem 1.4rem; font-size: 0.92rem; color: var(--text-secondary);
+            transition: all 0.25s ease;
+        }
+        .skill-item:hover { border-color: var(--amber); color: var(--text-primary); }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 2.6rem; margin-top: 1rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border-quiet);
+        }
+        .timeline-item { position: relative; margin-bottom: 2.8rem; padding-bottom: 0.5rem; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2.95rem; top: 0.4rem; width: 9px; height: 9px;
+            background: var(--amber); border-radius: 50%;
+        }
+        .timeline-role { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .timeline-company { color: var(--teal); font-weight: 500; margin-bottom: 0.5rem; font-family: var(--mono); font-size: 0.9rem; }
+        .timeline-date {
+            display: inline-block; font-family: var(--mono); font-size: 0.82rem;
+            color: var(--text-muted); margin-bottom: 0.9rem;
+        }
+        .timeline-description { color: var(--text-secondary); font-size: 1rem; max-width: 720px; }
+
+        /* Projects */
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.4rem; margin-top: 2rem;
+        }
+        .project-card {
+            background: var(--panel); border: 1px solid var(--border-quiet);
+            border-radius: 4px; padding: 2.2rem; transition: all 0.3s ease;
+        }
+        .project-card:hover { border-color: var(--amber); transform: translateY(-4px); }
+        .project-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .project-description { color: var(--text-secondary); font-size: 0.96rem; margin-bottom: 1.3rem; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .tech-tag {
+            padding: 0.35rem 0.8rem; background: rgba(94, 143, 131, 0.12);
+            border: 1px solid rgba(94, 143, 131, 0.3); color: var(--teal);
+            font-family: var(--mono); font-size: 0.76rem;
+        }
+
+        /* Education */
+        .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.4rem; margin-top: 2rem; }
+        .education-card { background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px; padding: 2.2rem; }
+        .education-degree { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .education-location { color: var(--amber); font-weight: 500; margin-bottom: 0.4rem; font-size: 0.95rem; }
+        .education-status {
+            display: inline-block; font-family: var(--mono); font-size: 0.8rem;
+            color: var(--text-muted); margin-bottom: 1rem;
+        }
+        .education-description { color: var(--text-secondary); font-size: 0.96rem; }
+
+        /* Interests list */
+        .interests-list { list-style: none; margin-top: 1rem; }
+        .interest-item {
+            padding: 1.3rem 0; padding-left: 2rem; position: relative;
+            color: var(--text-secondary); border-bottom: 1px solid var(--border-quiet); font-size: 0.98rem;
+        }
+        .interest-item:last-child { border-bottom: none; }
+        .interest-item::before { content: '—'; position: absolute; left: 0; color: var(--amber); }
+
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+        .contact-card {
+            background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px;
+            padding: 1.8rem 2rem; display: flex; align-items: center; gap: 1.2rem; transition: all 0.25s ease;
+        }
+        .contact-card:hover { border-color: var(--amber); }
+        .contact-icon {
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 0.85rem; color: var(--amber);
+            border: 1px solid var(--border); flex-shrink: 0;
+        }
+        .contact-info h3 { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; margin-bottom: 0.35rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
+        .contact-info a { color: var(--text-primary); text-decoration: none; font-weight: 500; font-size: 1rem; transition: color 0.25s ease; }
+        .contact-info a:hover { color: var(--amber); }
+
+        .phd-note {
+            margin-top: 2rem; padding: 1.4rem 1.8rem; border: 1px dashed var(--border);
+            background: var(--amber-dim); font-size: 0.95rem; color: var(--text-secondary);
+            max-width: 780px;
+        }
+        .phd-note strong { color: var(--amber); }
+
+        footer {
+            background: var(--ink-2); border-top: 1px solid var(--border-quiet);
+            padding: 2.5rem; text-align: center;
+        }
+        footer p { color: var(--text-muted); font-size: 0.88rem; font-family: var(--mono); }
+
+        @media (max-width: 1024px) {
+            .nav-container { padding: 0 2rem; }
+            .section { padding: 4rem 2rem; }
+            .hero { padding: 6.5rem 2rem 3rem; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-container { padding: 0 1.5rem; }
+            .nav-menu {
+                position: fixed; top: 64px; left: -100%; width: 100%; height: calc(100vh - 64px);
+                background: rgba(18, 24, 26, 0.98); flex-direction: column; padding: 2rem 1.5rem; gap: 1.4rem;
+                transition: left 0.35s ease; align-items: flex-start;
+            }
+            .nav-menu.active { left: 0; }
+            .nav-menu a { font-size: 1.1rem; width: 100%; padding: 0.8rem 0; border-bottom: 1px solid var(--border-quiet); }
+            .hero { padding: 7.5rem 1.5rem 2.5rem; min-height: auto; }
+            .hero h1 { font-size: 2.1rem; }
+            .hero .subtitle { font-size: 1rem; }
+            .hero .description { font-size: 0.98rem; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .btn { width: 100%; text-align: center; }
+            .stats { padding: 0 1.5rem; margin-top: 1.5rem; }
+            .section { padding: 3rem 1.5rem; }
+            .section-title { font-size: 1.7rem; }
+            .card, .diss-card { padding: 1.6rem; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+            .projects-grid, .education-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="background-wrapper">
+        <div class="gradient-bg"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">JD<span>.dev</span></div>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow">Open to funded PhD positions across Europe</div>
+            <h1>Jayesh Dankhara</h1>
+            <p class="subtitle">Mobile Security Researcher — Android Malware Detection &amp; Applied ML</p>
+            <p class="description">
+                I'm a mobile application engineer of 6+ years turned cybersecurity researcher, currently completing an MSc in Cybersecurity at Sheffield Hallam University. My dissertation applies machine learning to Android malware detection, optimising for the trade-off between detection performance and on-device computational cost. I'm looking for a fully funded doctoral position in Europe to take this work further — into adversarial robustness, on-device ML security, or applied mobile-security research more broadly.
+            </p>
+            <div class="hero-buttons">
+                <a href="#research" class="btn btn-primary">View My Research</a>
+                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">99.51%</div>
+            <div class="stat-label">F1-SCORE, LINEAR SVM MODEL</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">16,453</div>
+            <div class="stat-label">MALWARE SAMPLES ANALYSED</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">YEARS APPLIED DEV EXPERIENCE</div>
+        </div>
+    </div>
+
+    <section id="about" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">About</div>
+            <h2 class="section-title">From shipping apps to studying how they break</h2>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <p style="font-size: 1.08rem; line-height: 1.9; margin-bottom: 1.4rem;">
+                    I spent six years building and shipping Android and Flutter applications — 15+ production apps across healthcare, e-commerce, utility, and enterprise domains, working in Kotlin, Java, and Dart with clean and MVVM architectures. That engineering background is what pulled me toward security: the more systems I shipped, the more I wanted to understand how they're attacked, and how to build detection into them from the ground up.
+                </p>
+                <p style="font-size: 1.08rem; line-height: 1.9;">
+                    I'm now completing an MSc in Cybersecurity at Sheffield Hallam University (expected September 2026), with my dissertation focused on machine-learning-based Android malware detection. I want to continue this as doctoral research — combining hands-on mobile engineering experience with rigorous, reproducible security research — and I'm actively looking for funded PhD positions in continental Europe.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="research" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Research</div>
+            <h2 class="section-title">Research Interests</h2>
+            <p class="section-subtitle">Areas I'd like to pursue further as a doctoral researcher.</p>
+        </div>
+        <div class="research-grid">
+            <div class="research-item">
+                <h4>Android Malware Detection</h4>
+                <p>Machine-learning classifiers for identifying malicious Android applications from static and behavioural features.</p>
+            </div>
+            <div class="research-item">
+                <h4>Efficiency-Aware ML for Security</h4>
+                <p>Balancing detection accuracy against inference time and model size for practical, on-device deployment.</p>
+            </div>
+            <div class="research-item">
+                <h4>Mobile App Security &amp; Reverse Engineering</h4>
+                <p>Reverse-engineering resistance, code obfuscation, and secure coding practices for mobile applications.</p>
+            </div>
+            <div class="research-item">
+                <h4>Applied ML in Mobile Systems</h4>
+                <p>Integrating machine learning models into real mobile applications, informed by production engineering experience.</p>
+            </div>
+        </div>
+
+        <div class="diss-card">
+            <div class="diss-label">MSc Dissertation</div>
+            <h3 class="diss-title">AI-Powered Android Malware Detection System: Balancing Detection Performance and Computational Efficiency Using Machine Learning</h3>
+            <div class="diss-meta">
+                <span>Supervisor: <strong>Dr. Mark Jacobi</strong></span>
+                <span>Institution: <strong>Sheffield Hallam University</strong></span>
+            </div>
+            <p class="diss-body">
+                Trained and evaluated machine learning classifiers on a curated dataset of 16,453 Android application samples with 810 extracted features, to identify models that are Pareto-optimal across detection performance and computational efficiency. Linear SVM and Logistic Regression emerged as the strongest trade-off points, with the Linear SVM achieving high detection accuracy at a fraction of the inference cost — making it suitable for on-device deployment. The findings are demonstrated in a companion Android application built in Kotlin and Jetpack Compose.
+            </p>
+            <div class="metric-chips">
+                <span class="metric-chip">F1-score: 99.51%</span>
+                <span class="metric-chip">Inference: 0.0068ms</span>
+                <span class="metric-chip">Model size: 6.87KB</span>
+                <span class="metric-chip">Pareto-optimal: Linear SVM, Logistic Regression</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Academic Background</div>
+            <h2 class="section-title">Education</h2>
+        </div>
+        <div class="education-grid">
+            <div class="education-card">
+                <h3 class="education-degree">MSc in Cybersecurity</h3>
+                <div class="education-location">Sheffield Hallam University, United Kingdom</div>
+                <div class="education-status">2025 – Expected September 2026</div>
+                <p class="education-description">
+                    Dissertation on ML-based Android malware detection under the supervision of Dr. Mark Jacobi, alongside coursework in penetration testing, secure software development, cryptography, and network security.
+                </p>
+            </div>
+            <div class="education-card">
+                <h3 class="education-degree">Bachelor's in Computer Engineering</h3>
+                <div class="education-location">India</div>
+                <div class="education-status">Completed</div>
+                <p class="education-description">
+                    Foundation in computer science fundamentals, software engineering, data structures, and algorithms, with early project work in mobile application development.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Career Journey</div>
+            <h2 class="section-title">Professional Experience</h2>
+            <p class="section-subtitle">The engineering practice that grounds my security research.</p>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-role">Flutter Developer</div>
+                        <div class="timeline-company">Omex Infotech</div>
+                        <div class="timeline-date">2024 – September 2025</div>
+                        <p class="timeline-description">
+                            Built enterprise-level Flutter applications, implementing MVVM architecture and integrating REST and gRPC APIs. Optimised UI performance for 40% faster load times before transitioning to full-time study in cybersecurity.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Android Developer</div>
+                        <div class="timeline-company">Freelance / Contract</div>
+                        <div class="timeline-date">2019 – 2024</div>
+                        <p class="timeline-description">
+                            Owned the full lifecycle of Android applications for multiple clients — requirements, architecture, development, testing, Play Store deployment, and post-launch support — with an emphasis on secure coding practices and data encryption for sensitive user information.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Technical Expertise</div>
+            <h2 class="section-title">Skills &amp; Technologies</h2>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-item">Android (Kotlin, Java)</div>
+            <div class="skill-item">Flutter &amp; Dart</div>
+            <div class="skill-item">Machine Learning (scikit-learn)</div>
+            <div class="skill-item">Jetpack Compose</div>
+            <div class="skill-item">MVVM &amp; Clean Architecture</div>
+            <div class="skill-item">Firebase (Auth, FCM, Firestore)</div>
+            <div class="skill-item">REST &amp; gRPC APIs</div>
+            <div class="skill-item">Mobile App Security</div>
+            <div class="skill-item">Reverse Engineering Protection</div>
+            <div class="skill-item">CI/CD Pipelines</div>
+            <div class="skill-item">Git &amp; Version Control</div>
+            <div class="skill-item">Data Analysis (Python)</div>
+        </div>
+    </section>
+
+    <section id="projects" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Portfolio</div>
+            <h2 class="section-title">Selected Projects</h2>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3 class="project-title">PC Fitment</h3>
+                <p class="project-description">
+                    A Flutter application for PC hardware compatibility checking and recommendations, with Firebase-backed real-time sync. Live on Google Play with ongoing updates.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Flutter</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">MVVM</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">AYAM — Meditation App</h3>
+                <p class="project-description">
+                    An Android mindfulness app with guided audio sessions, offline support, and a custom background-playback audio player.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Android</span>
+                    <span class="tech-tag">Kotlin</span>
+                    <span class="tech-tag">Room DB</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">Crane Management System</h3>
+                <p class="project-description">
+                    An enterprise Flutter app for crane operations, scheduling, and maintenance tracking, with GPS tracking and role-based access control.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Flutter</span>
+                    <span class="tech-tag">Cloud Functions</span>
+                    <span class="tech-tag">Google Maps</span>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">Android Malware Detection System</h3>
+                <p class="project-description">
+                    MSc dissertation project: ML classifiers for Android malware detection, evaluated for the Pareto-optimal trade-off between accuracy and computational cost, with a companion Kotlin/Jetpack Compose app.
+                </p>
+                <div class="tech-tags">
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">Android Security</span>
+                    <span class="tech-tag">Kotlin</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Continuous Learning</div>
+            <h2 class="section-title">Beyond the Classroom</h2>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <ul class="interests-list">
+                    <li class="interest-item">Active participant in Google Developer Events and DevFest, engaging with the wider developer community.</li>
+                    <li class="interest-item">Exploring mobile penetration testing and ethical hacking techniques for Android applications.</li>
+                    <li class="interest-item">Researching the integration of machine learning and AI capabilities into mobile applications.</li>
+                    <li class="interest-item">Writing technical articles on Medium to share what I learn along the way.</li>
+                    <li class="interest-item">Contributing to Flutter and Android open-source projects on GitHub.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Get In Touch</div>
+            <h2 class="section-title">Let's Connect</h2>
+            <p class="section-subtitle">Reach out about doctoral research opportunities, collaborations, or my dissertation work.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">@</div>
+                <div class="contact-info">
+                    <h3>Email</h3>
+                    <a href="mailto:jayesh17296@gmail.com">jayesh17296@gmail.com</a>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">&lt;/&gt;</div>
+                <div class="contact-info">
+                    <h3>GitHub</h3>
+                    <a href="https://github.com/JayeshDankhara" target="_blank">github.com/JayeshDankhara</a>
+                </div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">in</div>
+                <div class="contact-info">
+                    <h3>LinkedIn</h3>
+                    <a href="https://www.linkedin.com/in/dankhara-jayesh-429965179/" target="_blank">Connect on LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="phd-note">
+            <strong>Note for academics and funding bodies:</strong> I'm actively seeking fully funded PhD positions (with stipend) in continental Europe, in mobile/Android security, applied machine learning for security, or related areas. Happy to share my full dissertation, CV, and transcripts on request.
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Jayesh Dankhara — Mobile Engineer &amp; Security Researcher</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('navMenu').classList.toggle('active');
+        }
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 80) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                if (el.getBoundingClientRect().top < windowHeight - 100) el.classList.add('active');
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+    </script>
+</body>
+</html>
