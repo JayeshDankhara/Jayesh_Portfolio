@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="theme-color" content="#161b1a">
     <title>Jayesh Dankhara | Mobile Security Researcher</title>
-    <meta name="description" content="Jayesh Dankhara — Android/Flutter engineer and MSc Cybersecurity researcher (Sheffield Hallam University), working on ML-based Android malware detection. Open to funded doctoral positions in Europe.">
+    <meta name="description" content="Jayesh Dankhara — Android/Flutter engineer and MSc Cyber Security researcher (Sheffield Hallam University), working on ML-based Android malware detection. Open to funded doctoral positions in Europe.">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -39,10 +39,7 @@
             overflow-x: hidden;
         }
 
-        /* Background: quiet hex-grid, evokes a disassembly / byte-map view */
-        .background-wrapper {
-            position: fixed; inset: 0; z-index: -1; overflow: hidden;
-        }
+        .background-wrapper { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
         .gradient-bg {
             position: absolute; width: 100%; height: 100%;
             background:
@@ -57,7 +54,6 @@
             background-size: 64px 64px;
         }
 
-        /* Navigation */
         nav {
             position: fixed; top: 0; width: 100%;
             background: rgba(18, 24, 26, 0.82);
@@ -73,16 +69,13 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .nav-logo {
-            font-family: var(--mono); font-size: 1.05rem; font-weight: 600;
-            color: var(--amber); letter-spacing: 1px;
-        }
+        .nav-logo { font-family: var(--mono); font-size: 1.05rem; font-weight: 600; color: var(--amber); letter-spacing: 1px; }
         .nav-logo span { color: var(--text-muted); }
 
-        .nav-menu { display: flex; gap: 2.3rem; list-style: none; align-items: center; }
+        .nav-menu { display: flex; gap: 1.9rem; list-style: none; align-items: center; }
         .nav-menu a {
             color: var(--text-secondary); text-decoration: none;
-            font-weight: 500; font-size: 0.92rem; letter-spacing: 0.2px;
+            font-weight: 500; font-size: 0.9rem; letter-spacing: 0.2px;
             transition: color 0.25s ease; position: relative;
         }
         .nav-menu a::after {
@@ -95,12 +88,8 @@
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
         .menu-toggle span { width: 26px; height: 2px; background: var(--text-primary); transition: all 0.3s ease; }
 
-        /* Hero */
-        .hero {
-            min-height: 92vh; display: flex; align-items: center; justify-content: center;
-            padding: 8rem 3rem 3rem; position: relative;
-        }
-        .hero-content { max-width: 900px; width: 100%; text-align: left; }
+        .hero { min-height: 92vh; display: flex; align-items: center; justify-content: center; padding: 8rem 3rem 3rem; position: relative; }
+        .hero-content { max-width: 920px; width: 100%; text-align: left; }
 
         .hero-eyebrow {
             display: flex; align-items: center; gap: 0.6rem;
@@ -120,10 +109,13 @@
             margin-bottom: 1.7rem; font-weight: 500; font-family: var(--mono);
         }
 
-        .hero .description {
-            font-size: 1.08rem; color: var(--text-secondary);
-            max-width: 680px; margin: 0 0 2.6rem; line-height: 1.85;
+        .hero .description { font-size: 1.06rem; color: var(--text-secondary); max-width: 700px; margin: 0 0 1.6rem; line-height: 1.85; }
+        .hero .contact-line {
+            font-family: var(--mono); font-size: 0.85rem; color: var(--text-muted);
+            margin-bottom: 2.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem;
         }
+        .hero .contact-line a { color: var(--text-muted); text-decoration: none; }
+        .hero .contact-line a:hover { color: var(--amber); }
 
         .hero-buttons { display: flex; gap: 1.2rem; flex-wrap: wrap; }
 
@@ -137,183 +129,111 @@
         .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-quiet); }
         .btn-secondary:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
 
-        /* Metrics strip */
         .stats {
             max-width: 1280px; margin: 0 auto; padding: 2.5rem 3rem;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1px; background: var(--border-quiet);
-            border: 1px solid var(--border-quiet);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px; background: var(--border-quiet); border: 1px solid var(--border-quiet);
         }
-        .stat-card { background: var(--ink); padding: 2.2rem 1.8rem; }
-        .stat-number {
-            font-family: var(--serif); font-size: 2.6rem; font-weight: 600; color: var(--amber);
-            line-height: 1;
-        }
-        .stat-label {
-            color: var(--text-muted); font-size: 0.85rem; margin-top: 0.6rem;
-            font-family: var(--mono); letter-spacing: 0.3px;
-        }
+        .stat-card { background: var(--ink); padding: 2.2rem 1.6rem; }
+        .stat-number { font-family: var(--serif); font-size: 2.4rem; font-weight: 600; color: var(--amber); line-height: 1; }
+        .stat-label { color: var(--text-muted); font-size: 0.8rem; margin-top: 0.6rem; font-family: var(--mono); letter-spacing: 0.3px; }
 
-        /* Sections */
         .section { max-width: 1280px; margin: 0 auto; padding: 5.5rem 3rem; }
 
-        .section-header { margin-bottom: 3.2rem; max-width: 700px; }
+        .section-header { margin-bottom: 3.2rem; max-width: 720px; }
         .section-tag {
             display: flex; align-items: center; gap: 0.6rem;
             font-family: var(--mono); font-size: 0.78rem; color: var(--amber);
             margin-bottom: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;
         }
         .section-tag::before { content: ''; width: 22px; height: 1px; background: var(--amber); }
-        .section-title {
-            font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 600;
-            margin-bottom: 0.9rem; letter-spacing: -0.5px;
-        }
+        .section-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 600; margin-bottom: 0.9rem; letter-spacing: -0.5px; }
         .section-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 640px; }
 
-        .card {
-            background: var(--panel); border: 1px solid var(--border-quiet);
-            border-radius: 4px; padding: 2.4rem;
-        }
+        .card { background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px; padding: 2.4rem; }
 
-        /* Research interests */
-        .research-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.2rem; margin-top: 2rem;
-        }
-        .research-item {
-            border: 1px solid var(--border-quiet); border-left: 2px solid var(--amber);
-            padding: 1.6rem 1.7rem; background: var(--panel); transition: all 0.25s ease;
-        }
+        .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
+        .research-item { border: 1px solid var(--border-quiet); border-left: 2px solid var(--amber); padding: 1.6rem 1.7rem; background: var(--panel); transition: all 0.25s ease; }
         .research-item:hover { border-left-color: var(--teal); transform: translateX(3px); }
-        .research-item h4 {
-            font-family: var(--serif); font-size: 1.15rem; font-weight: 600; margin-bottom: 0.6rem;
-        }
+        .research-item h4 { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; margin-bottom: 0.6rem; }
         .research-item p { color: var(--text-secondary); font-size: 0.95rem; }
 
-        /* Dissertation highlight */
-        .diss-card {
-            background: var(--panel); border: 1px solid var(--border);
-            border-radius: 4px; padding: 3rem; margin-top: 2.5rem;
-        }
-        .diss-label {
-            font-family: var(--mono); font-size: 0.78rem; color: var(--teal);
-            text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem;
-        }
-        .diss-title {
-            font-family: var(--serif); font-size: 1.6rem; font-weight: 600; line-height: 1.35;
-            margin-bottom: 1.2rem; max-width: 750px;
-        }
-        .diss-meta {
-            display: flex; flex-wrap: wrap; gap: 1.8rem; margin-bottom: 1.8rem;
-            font-size: 0.92rem; color: var(--text-muted);
-        }
+        .diss-card { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 3rem; margin-top: 2.5rem; }
+        .diss-label { font-family: var(--mono); font-size: 0.78rem; color: var(--teal); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; }
+        .diss-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 600; line-height: 1.35; margin-bottom: 1.2rem; max-width: 750px; }
+        .diss-meta { display: flex; flex-wrap: wrap; gap: 1.8rem; margin-bottom: 1.8rem; font-size: 0.92rem; color: var(--text-muted); }
         .diss-meta strong { color: var(--text-secondary); font-weight: 500; }
         .diss-body { color: var(--text-secondary); max-width: 780px; margin-bottom: 2rem; }
         .metric-chips { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-        .metric-chip {
-            font-family: var(--mono); font-size: 0.85rem; padding: 0.6rem 1rem;
-            background: var(--amber-dim); border: 1px solid var(--border); color: var(--amber);
-            border-radius: 2px;
-        }
+        .metric-chip { font-family: var(--mono); font-size: 0.85rem; padding: 0.6rem 1rem; background: var(--amber-dim); border: 1px solid var(--border); color: var(--amber); border-radius: 2px; }
 
-        /* Skills */
-        .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 0.9rem; margin-top: 2rem;
+        .skill-category { margin-bottom: 1.8rem; }
+        .skill-category:last-child { margin-bottom: 0; }
+        .skill-category h4 {
+            font-family: var(--mono); font-size: 0.82rem; color: var(--teal);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.9rem;
         }
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 0.7rem; }
         .skill-item {
             background: var(--panel); border: 1px solid var(--border-quiet);
-            padding: 1rem 1.4rem; font-size: 0.92rem; color: var(--text-secondary);
+            padding: 0.55rem 1.1rem; font-size: 0.88rem; color: var(--text-secondary);
             transition: all 0.25s ease;
         }
         .skill-item:hover { border-color: var(--amber); color: var(--text-primary); }
 
-        /* Timeline */
         .timeline { position: relative; padding-left: 2.6rem; margin-top: 1rem; }
-        .timeline::before {
-            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border-quiet);
-        }
-        .timeline-item { position: relative; margin-bottom: 2.8rem; padding-bottom: 0.5rem; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border-quiet); }
+        .timeline-item { position: relative; margin-bottom: 2.6rem; padding-bottom: 0.3rem; }
         .timeline-item:last-child { margin-bottom: 0; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -2.95rem; top: 0.4rem; width: 9px; height: 9px;
-            background: var(--amber); border-radius: 50%;
-        }
-        .timeline-role { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.3rem; }
-        .timeline-company { color: var(--teal); font-weight: 500; margin-bottom: 0.5rem; font-family: var(--mono); font-size: 0.9rem; }
-        .timeline-date {
-            display: inline-block; font-family: var(--mono); font-size: 0.82rem;
-            color: var(--text-muted); margin-bottom: 0.9rem;
-        }
-        .timeline-description { color: var(--text-secondary); font-size: 1rem; max-width: 720px; }
+        .timeline-item::before { content: ''; position: absolute; left: -2.95rem; top: 0.4rem; width: 9px; height: 9px; background: var(--amber); border-radius: 50%; }
+        .timeline-role { font-family: var(--serif); font-size: 1.25rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .timeline-company { color: var(--teal); font-weight: 500; margin-bottom: 0.5rem; font-family: var(--mono); font-size: 0.88rem; }
+        .timeline-date { display: inline-block; font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+        .timeline-description { color: var(--text-secondary); font-size: 0.98rem; max-width: 720px; }
 
-        /* Projects */
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 1.4rem; margin-top: 2rem;
-        }
-        .project-card {
-            background: var(--panel); border: 1px solid var(--border-quiet);
-            border-radius: 4px; padding: 2.2rem; transition: all 0.3s ease;
-        }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.4rem; margin-top: 2rem; }
+        .project-card { background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px; padding: 2.2rem; transition: all 0.3s ease; }
         .project-card:hover { border-color: var(--amber); transform: translateY(-4px); }
-        .project-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; margin-bottom: 0.8rem; }
-        .project-description { color: var(--text-secondary); font-size: 0.96rem; margin-bottom: 1.3rem; }
+        .project-title { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.7rem; }
+        .project-description { color: var(--text-secondary); font-size: 0.94rem; margin-bottom: 1.2rem; }
         .tech-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-        .tech-tag {
-            padding: 0.35rem 0.8rem; background: rgba(94, 143, 131, 0.12);
-            border: 1px solid rgba(94, 143, 131, 0.3); color: var(--teal);
-            font-family: var(--mono); font-size: 0.76rem;
-        }
+        .tech-tag { padding: 0.35rem 0.8rem; background: rgba(94, 143, 131, 0.12); border: 1px solid rgba(94, 143, 131, 0.3); color: var(--teal); font-family: var(--mono); font-size: 0.74rem; }
 
-        /* Education */
-        .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.4rem; margin-top: 2rem; }
+        .freelance-list { list-style: none; margin-top: 1.4rem; columns: 2; column-gap: 2.5rem; }
+        .freelance-list li {
+            color: var(--text-secondary); font-size: 0.95rem; padding: 0.6rem 0 0.6rem 1.1rem;
+            position: relative; break-inside: avoid; border-bottom: 1px solid var(--border-quiet);
+        }
+        .freelance-list li::before { content: '·'; position: absolute; left: 0; color: var(--amber); font-weight: 700; }
+
+        .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.4rem; margin-top: 2rem; }
         .education-card { background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px; padding: 2.2rem; }
-        .education-degree { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; }
-        .education-location { color: var(--amber); font-weight: 500; margin-bottom: 0.4rem; font-size: 0.95rem; }
-        .education-status {
-            display: inline-block; font-family: var(--mono); font-size: 0.8rem;
-            color: var(--text-muted); margin-bottom: 1rem;
-        }
-        .education-description { color: var(--text-secondary); font-size: 0.96rem; }
+        .education-degree { font-family: var(--serif); font-size: 1.25rem; font-weight: 600; margin-bottom: 0.6rem; }
+        .education-location { color: var(--amber); font-weight: 500; margin-bottom: 0.4rem; font-size: 0.94rem; }
+        .education-status { display: inline-block; font-family: var(--mono); font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .education-description { color: var(--text-secondary); font-size: 0.94rem; }
 
-        /* Interests list */
         .interests-list { list-style: none; margin-top: 1rem; }
-        .interest-item {
-            padding: 1.3rem 0; padding-left: 2rem; position: relative;
-            color: var(--text-secondary); border-bottom: 1px solid var(--border-quiet); font-size: 0.98rem;
-        }
+        .interest-item { padding: 1.2rem 0; padding-left: 2rem; position: relative; color: var(--text-secondary); border-bottom: 1px solid var(--border-quiet); font-size: 0.97rem; }
         .interest-item:last-child { border-bottom: none; }
         .interest-item::before { content: '—'; position: absolute; left: 0; color: var(--amber); }
+        .interest-item a { color: var(--amber); text-decoration: none; }
+        .interest-item a:hover { text-decoration: underline; }
 
-        /* Contact */
-        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
-        .contact-card {
-            background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px;
-            padding: 1.8rem 2rem; display: flex; align-items: center; gap: 1.2rem; transition: all 0.25s ease;
-        }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; margin-top: 2.5rem; }
+        .contact-card { background: var(--panel); border: 1px solid var(--border-quiet); border-radius: 4px; padding: 1.6rem 1.8rem; display: flex; align-items: center; gap: 1.1rem; transition: all 0.25s ease; }
         .contact-card:hover { border-color: var(--amber); }
-        .contact-icon {
-            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-            font-family: var(--mono); font-size: 0.85rem; color: var(--amber);
-            border: 1px solid var(--border); flex-shrink: 0;
-        }
-        .contact-info h3 { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; margin-bottom: 0.35rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
-        .contact-info a { color: var(--text-primary); text-decoration: none; font-weight: 500; font-size: 1rem; transition: color 0.25s ease; }
+        .contact-icon { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.8rem; color: var(--amber); border: 1px solid var(--border); flex-shrink: 0; }
+        .contact-info h3 { color: var(--text-muted); font-size: 0.78rem; font-weight: 500; margin-bottom: 0.3rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
+        .contact-info a { color: var(--text-primary); text-decoration: none; font-weight: 500; font-size: 0.96rem; transition: color 0.25s ease; }
         .contact-info a:hover { color: var(--amber); }
 
-        .phd-note {
-            margin-top: 2rem; padding: 1.4rem 1.8rem; border: 1px dashed var(--border);
-            background: var(--amber-dim); font-size: 0.95rem; color: var(--text-secondary);
-            max-width: 780px;
-        }
+        .phd-note { margin-top: 2rem; padding: 1.4rem 1.8rem; border: 1px dashed var(--border); background: var(--amber-dim); font-size: 0.95rem; color: var(--text-secondary); max-width: 780px; }
         .phd-note strong { color: var(--amber); }
 
-        footer {
-            background: var(--ink-2); border-top: 1px solid var(--border-quiet);
-            padding: 2.5rem; text-align: center;
-        }
-        footer p { color: var(--text-muted); font-size: 0.88rem; font-family: var(--mono); }
+        footer { background: var(--ink-2); border-top: 1px solid var(--border-quiet); padding: 2.5rem; text-align: center; }
+        footer p { color: var(--text-muted); font-size: 0.85rem; font-family: var(--mono); }
+        footer .lang-line { margin-top: 0.6rem; color: var(--text-muted); font-size: 0.8rem; }
 
         @media (max-width: 1024px) {
             .nav-container { padding: 0 2rem; }
@@ -326,11 +246,11 @@
             .nav-container { padding: 0 1.5rem; }
             .nav-menu {
                 position: fixed; top: 64px; left: -100%; width: 100%; height: calc(100vh - 64px);
-                background: rgba(18, 24, 26, 0.98); flex-direction: column; padding: 2rem 1.5rem; gap: 1.4rem;
-                transition: left 0.35s ease; align-items: flex-start;
+                background: rgba(18, 24, 26, 0.98); flex-direction: column; padding: 2rem 1.5rem; gap: 1.3rem;
+                transition: left 0.35s ease; align-items: flex-start; overflow-y: auto;
             }
             .nav-menu.active { left: 0; }
-            .nav-menu a { font-size: 1.1rem; width: 100%; padding: 0.8rem 0; border-bottom: 1px solid var(--border-quiet); }
+            .nav-menu a { font-size: 1.05rem; width: 100%; padding: 0.7rem 0; border-bottom: 1px solid var(--border-quiet); }
             .hero { padding: 7.5rem 1.5rem 2.5rem; min-height: auto; }
             .hero h1 { font-size: 2.1rem; }
             .hero .subtitle { font-size: 1rem; }
@@ -341,9 +261,9 @@
             .section { padding: 3rem 1.5rem; }
             .section-title { font-size: 1.7rem; }
             .card, .diss-card { padding: 1.6rem; }
-            .skills-grid { grid-template-columns: 1fr 1fr; }
             .projects-grid, .education-grid { grid-template-columns: 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
+            .freelance-list { columns: 1; }
         }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
@@ -368,6 +288,7 @@
                 <li><a href="#education">Education</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#publications">Publications</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -379,7 +300,14 @@
             <h1>Jayesh Dankhara</h1>
             <p class="subtitle">Mobile Security Researcher — Android Malware Detection &amp; Applied ML</p>
             <p class="description">
-                I'm a mobile application engineer of 6+ years turned cybersecurity researcher, currently completing an MSc in Cybersecurity at Sheffield Hallam University. My dissertation applies machine learning to Android malware detection, optimising for the trade-off between detection performance and on-device computational cost. I'm looking for a fully funded doctoral position in Europe to take this work further — into adversarial robustness, on-device ML security, or applied mobile-security research more broadly.
+                I'm a mobile application engineer with 6+ years of experience shipping 35+ Android and Flutter applications across healthcare, logistics, e-commerce, and industrial sectors, now completing an MSc in Cyber Security at Sheffield Hallam University (expected September 2026). My dissertation applies machine learning to Android malware detection, and I'm growing my background in AI/ML tooling and secure coding practices alongside it. I'm looking for a fully funded doctoral position in Europe to take this research further — into adversarial robustness, on-device ML security, or applied mobile-security research more broadly.
+            </p>
+            <p class="contact-line">
+                Sheffield, UK &nbsp;·&nbsp; <a href="mailto:jayesh17296@gmail.com">jayesh17296@gmail.com</a> &nbsp;·&nbsp; +44 7344405498 &nbsp;·&nbsp;
+                <a href="https://github.com/JayeshDankhara" target="_blank">GitHub</a> &nbsp;·&nbsp;
+                <a href="https://www.linkedin.com/in/dankhara-jayesh-429965179/" target="_blank">LinkedIn</a> &nbsp;·&nbsp;
+                <a href="https://stackoverflow.com/users/12936324" target="_blank">Stack Overflow</a> &nbsp;·&nbsp;
+                <a href="https://medium.com/@jayesh17296" target="_blank">Medium</a>
             </p>
             <div class="hero-buttons">
                 <a href="#research" class="btn btn-primary">View My Research</a>
@@ -394,12 +322,16 @@
             <div class="stat-label">F1-SCORE, LINEAR SVM MODEL</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">16,453</div>
-            <div class="stat-label">MALWARE SAMPLES ANALYSED</div>
+            <div class="stat-number">35+</div>
+            <div class="stat-label">MOBILE APPS SHIPPED</div>
         </div>
         <div class="stat-card">
             <div class="stat-number">6+</div>
             <div class="stat-label">YEARS APPLIED DEV EXPERIENCE</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">16,453</div>
+            <div class="stat-label">MALWARE SAMPLES ANALYSED</div>
         </div>
     </div>
 
@@ -410,11 +342,11 @@
         </div>
         <div class="card">
             <div class="card-content">
-                <p style="font-size: 1.08rem; line-height: 1.9; margin-bottom: 1.4rem;">
-                    I spent six years building and shipping Android and Flutter applications — 15+ production apps across healthcare, e-commerce, utility, and enterprise domains, working in Kotlin, Java, and Dart with clean and MVVM architectures. That engineering background is what pulled me toward security: the more systems I shipped, the more I wanted to understand how they're attacked, and how to build detection into them from the ground up.
+                <p style="font-size: 1.06rem; line-height: 1.9; margin-bottom: 1.4rem;">
+                    Over six years I've designed, developed, and launched 35+ mobile applications across healthcare, logistics, e-commerce, and industrial sectors, working in Kotlin, Java, Flutter, and Firebase, and building a growing base in AI/ML tooling (TensorFlow, MediaPipe, ARCore). I've worked across the full software development lifecycle in Agile teams, mentored junior developers, and contributed to open-source and technical writing communities. That engineering background is what pulled me toward security: the more systems I shipped, the more I wanted to understand how they're attacked, and how to build detection into them from the ground up.
                 </p>
-                <p style="font-size: 1.08rem; line-height: 1.9;">
-                    I'm now completing an MSc in Cybersecurity at Sheffield Hallam University (expected September 2026), with my dissertation focused on machine-learning-based Android malware detection. I want to continue this as doctoral research — combining hands-on mobile engineering experience with rigorous, reproducible security research — and I'm actively looking for funded PhD positions in continental Europe.
+                <p style="font-size: 1.06rem; line-height: 1.9;">
+                    I'm now completing an MSc in Cyber Security at Sheffield Hallam University (expected September 2026), and I'm ISO/IEC 27001 certified. My dissertation focuses on machine-learning-based Android malware detection. I want to continue this as doctoral research — combining hands-on mobile engineering experience with rigorous, reproducible security research — and I'm actively seeking fully funded PhD positions in continental Europe.
                 </p>
             </div>
         </div>
@@ -437,7 +369,7 @@
             </div>
             <div class="research-item">
                 <h4>Mobile App Security &amp; Reverse Engineering</h4>
-                <p>Reverse-engineering resistance, code obfuscation, and secure coding practices for mobile applications.</p>
+                <p>OWASP Mobile Top 10, reverse-engineering resistance, and secure coding practices for mobile applications.</p>
             </div>
             <div class="research-item">
                 <h4>Applied ML in Mobile Systems</h4>
@@ -471,7 +403,7 @@
         </div>
         <div class="education-grid">
             <div class="education-card">
-                <h3 class="education-degree">MSc in Cybersecurity</h3>
+                <h3 class="education-degree">MSc Cyber Security</h3>
                 <div class="education-location">Sheffield Hallam University, United Kingdom</div>
                 <div class="education-status">2025 – Expected September 2026</div>
                 <p class="education-description">
@@ -479,9 +411,17 @@
                 </p>
             </div>
             <div class="education-card">
-                <h3 class="education-degree">Bachelor's in Computer Engineering</h3>
-                <div class="education-location">India</div>
-                <div class="education-status">Completed</div>
+                <h3 class="education-degree">Associate Degree, Information Security and Digital Forensics</h3>
+                <div class="education-location">Sheffield Hallam University, United Kingdom</div>
+                <div class="education-status">2025 – 2026</div>
+                <p class="education-description">
+                    Foundational coursework in digital forensics and information security, taken alongside the MSc.
+                </p>
+            </div>
+            <div class="education-card">
+                <h3 class="education-degree">Bachelor of Computer Applications (BCA)</h3>
+                <div class="education-location">Shree S.V. Patel College of Computer Science &amp; Business Management (VNSGU), India</div>
+                <div class="education-status">2013 – 2019 · CGPA 7.54</div>
                 <p class="education-description">
                     Foundation in computer science fundamentals, software engineering, data structures, and algorithms, with early project work in mobile application development.
                 </p>
@@ -499,19 +439,43 @@
             <div class="card-content">
                 <div class="timeline">
                     <div class="timeline-item">
-                        <div class="timeline-role">Flutter Developer</div>
-                        <div class="timeline-company">Omex Infotech</div>
-                        <div class="timeline-date">2024 – September 2025</div>
+                        <div class="timeline-role">Senior Flutter Developer</div>
+                        <div class="timeline-company">OMEX Infotech · Ahmedabad, Gujarat, India</div>
+                        <div class="timeline-date">April 2022 – September 2025</div>
                         <p class="timeline-description">
-                            Built enterprise-level Flutter applications, implementing MVVM architecture and integrating REST and gRPC APIs. Optimised UI performance for 40% faster load times before transitioning to full-time study in cybersecurity.
+                            Led Flutter development across multiple concurrent production projects end-to-end. Delivered Seabird Cargo Terminal (enterprise logistics, MVVM + GetX), PC Fitment, MR Divine Savior (B2B industrial catalog), Crane Management App, SURI Agro Fresh (real-time delivery tracking), and Candy Bomb Blast (published Android game). Implemented secure API integrations and role-based access control, reviewed and refactored team code for performance and stability, and mentored junior developers on clean code and debugging.
                         </p>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-role">Android Developer</div>
-                        <div class="timeline-company">Freelance / Contract</div>
-                        <div class="timeline-date">2019 – 2024</div>
+                        <div class="timeline-company">Softice Technology · Surat, India</div>
+                        <div class="timeline-date">October 2020 – April 2022</div>
                         <p class="timeline-description">
-                            Owned the full lifecycle of Android applications for multiple clients — requirements, architecture, development, testing, Play Store deployment, and post-launch support — with an emphasis on secure coding practices and data encryption for sensitive user information.
+                            Developed and optimised Android applications for the diamond industry, including RFID and device scanner apps for inventory and security management, and SuraSole Medical — a wearable IoT insole system for remote rehabilitation monitoring, gait/balance tracking, and fall alerts. Integrated third-party APIs, implemented secure data storage, and fixed security-related bugs and logic flaws.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Junior Android Developer (Software Engineer)</div>
+                        <div class="timeline-company">iRoid Solutions · Surat Area, India</div>
+                        <div class="timeline-date">March 2019 – August 2020</div>
+                        <p class="timeline-description">
+                            Built Android applications in Kotlin and Java, including the Giffi Texy Driver App (logistics/transportation) and the Uflyp Amazon Mediator App (e-commerce integration). Implemented API integrations and authentication workflows, gaining hands-on experience in debugging, testing, and secure coding fundamentals.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Training Android Developer</div>
+                        <div class="timeline-company">Creative Design &amp; Multimedia Institute · Surat Area, India</div>
+                        <div class="timeline-date">August 2018 – February 2019</div>
+                        <p class="timeline-description">
+                            Completed professional training in Android application development using Java and Kotlin, building multiple applications covering UI design, APIs, debugging, and deployment.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Hardware Technician (Part-time)</div>
+                        <div class="timeline-company">Dot.Net Computer &amp; CCTV · Surat Area, India</div>
+                        <div class="timeline-date">January 2014 – November 2016</div>
+                        <p class="timeline-description">
+                            Assembled, repaired, and maintained computer systems, peripherals, and networking equipment; installed operating systems and software; assisted with CCTV installation and basic security device configuration.
                         </p>
                     </div>
                 </div>
@@ -524,19 +488,64 @@
             <div class="section-tag">Technical Expertise</div>
             <h2 class="section-title">Skills &amp; Technologies</h2>
         </div>
-        <div class="skills-grid">
-            <div class="skill-item">Android (Kotlin, Java)</div>
-            <div class="skill-item">Flutter &amp; Dart</div>
-            <div class="skill-item">Machine Learning (scikit-learn)</div>
-            <div class="skill-item">Jetpack Compose</div>
-            <div class="skill-item">MVVM &amp; Clean Architecture</div>
-            <div class="skill-item">Firebase (Auth, FCM, Firestore)</div>
-            <div class="skill-item">REST &amp; gRPC APIs</div>
-            <div class="skill-item">Mobile App Security</div>
-            <div class="skill-item">Reverse Engineering Protection</div>
-            <div class="skill-item">CI/CD Pipelines</div>
-            <div class="skill-item">Git &amp; Version Control</div>
-            <div class="skill-item">Data Analysis (Python)</div>
+        <div class="card">
+            <div class="skill-category">
+                <h4>Mobile Development</h4>
+                <div class="skills-grid">
+                    <div class="skill-item">Flutter (Dart)</div>
+                    <div class="skill-item">Android (Java, Kotlin)</div>
+                    <div class="skill-item">Coroutines</div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>State Management</h4>
+                <div class="skills-grid">
+                    <div class="skill-item">GetX</div>
+                    <div class="skill-item">Provider</div>
+                    <div class="skill-item">Bloc</div>
+                    <div class="skill-item">Redux</div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Backend &amp; APIs</h4>
+                <div class="skills-grid">
+                    <div class="skill-item">Firebase</div>
+                    <div class="skill-item">gRPC</div>
+                    <div class="skill-item">REST APIs</div>
+                    <div class="skill-item">WebSockets</div>
+                    <div class="skill-item">Google Maps API</div>
+                    <div class="skill-item">Facebook Graph API</div>
+                    <div class="skill-item">Stripe / PayPal</div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>AI &amp; ML</h4>
+                <div class="skills-grid">
+                    <div class="skill-item">Google ARCore</div>
+                    <div class="skill-item">MediaPipe</div>
+                    <div class="skill-item">TensorFlow (beginner)</div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Cloud, DevOps &amp; Security</h4>
+                <div class="skills-grid">
+                    <div class="skill-item">CI/CD (GitHub Actions)</div>
+                    <div class="skill-item">Google Cloud</div>
+                    <div class="skill-item">AWS</div>
+                    <div class="skill-item">OWASP Mobile Top 10</div>
+                    <div class="skill-item">Secure Coding Practices</div>
+                    <div class="skill-item">Auth &amp; Access Control</div>
+                    <div class="skill-item">Secure Data Storage</div>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Version Control &amp; PM</h4>
+                <div class="skills-grid">
+                    <div class="skill-item">Git / GitHub / Bitbucket</div>
+                    <div class="skill-item">Agile / Scrum</div>
+                    <div class="skill-item">Jira</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -547,65 +556,95 @@
         </div>
         <div class="projects-grid">
             <div class="project-card">
+                <h3 class="project-title">Seabird Cargo Terminal</h3>
+                <p class="project-description">
+                    Enterprise logistics application built at OMEX Infotech using MVVM architecture and GetX state management.
+                </p>
+                <div class="tech-tags"><span class="tech-tag">Flutter</span><span class="tech-tag">MVVM</span><span class="tech-tag">GetX</span></div>
+            </div>
+            <div class="project-card">
                 <h3 class="project-title">PC Fitment</h3>
                 <p class="project-description">
-                    A Flutter application for PC hardware compatibility checking and recommendations, with Firebase-backed real-time sync. Live on Google Play with ongoing updates.
+                    Mobile extension of a fitment data tool enabling auto parts sellers to submit accurate data to Amazon, eBay, Walmart, and other marketplaces.
                 </p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Flutter</span>
-                    <span class="tech-tag">Firebase</span>
-                    <span class="tech-tag">MVVM</span>
-                </div>
+                <div class="tech-tags"><span class="tech-tag">Flutter</span><span class="tech-tag">Firebase</span><span class="tech-tag">REST API</span></div>
+            </div>
+            <div class="project-card">
+                <h3 class="project-title">SuraSole Medical</h3>
+                <p class="project-description">
+                    Smart insole system using wearable sensors and IoT to remotely monitor rehabilitation progress, track balance and walking data, and alert caregivers to falls.
+                </p>
+                <div class="tech-tags"><span class="tech-tag">Android</span><span class="tech-tag">IoT</span><span class="tech-tag">Wearables</span></div>
             </div>
             <div class="project-card">
                 <h3 class="project-title">AYAM — Meditation App</h3>
                 <p class="project-description">
-                    An Android mindfulness app with guided audio sessions, offline support, and a custom background-playback audio player.
+                    A mindfulness app with guided audio sessions, offline support, secure local data handling, and a custom background-playback audio player.
                 </p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Android</span>
-                    <span class="tech-tag">Kotlin</span>
-                    <span class="tech-tag">Room DB</span>
-                </div>
+                <div class="tech-tags"><span class="tech-tag">Android</span><span class="tech-tag">Kotlin</span><span class="tech-tag">Room DB</span></div>
             </div>
             <div class="project-card">
-                <h3 class="project-title">Crane Management System</h3>
+                <h3 class="project-title">Crane Management App</h3>
                 <p class="project-description">
-                    An enterprise Flutter app for crane operations, scheduling, and maintenance tracking, with GPS tracking and role-based access control.
+                    Flutter-based industrial management solution for crane operations, scheduling, and maintenance tracking, with GPS tracking and role-based access control.
                 </p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Flutter</span>
-                    <span class="tech-tag">Cloud Functions</span>
-                    <span class="tech-tag">Google Maps</span>
-                </div>
+                <div class="tech-tags"><span class="tech-tag">Flutter</span><span class="tech-tag">Google Maps</span><span class="tech-tag">Cloud Functions</span></div>
             </div>
             <div class="project-card">
                 <h3 class="project-title">Android Malware Detection System</h3>
                 <p class="project-description">
                     MSc dissertation project: ML classifiers for Android malware detection, evaluated for the Pareto-optimal trade-off between accuracy and computational cost, with a companion Kotlin/Jetpack Compose app.
                 </p>
-                <div class="tech-tags">
-                    <span class="tech-tag">Machine Learning</span>
-                    <span class="tech-tag">Android Security</span>
-                    <span class="tech-tag">Kotlin</span>
-                </div>
+                <div class="tech-tags"><span class="tech-tag">Machine Learning</span><span class="tech-tag">Android Security</span><span class="tech-tag">Kotlin</span></div>
             </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h4 style="font-family: var(--mono); font-size: 0.82rem; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem;">Freelance Projects &amp; Contributions</h4>
+            <ul class="freelance-list">
+                <li>My Photo Keyboard — customised keyboard app on the Play Store</li>
+                <li>Smart Expense Tracker — budget tracking and analytics</li>
+                <li>Online Learning Platform — e-learning with video lectures and quizzes</li>
+                <li>Event Booking System — Flutter ticket booking for concerts and events</li>
+                <li>Delivery Tracking App — real-time tracking and route optimisation</li>
+                <li>DreamGirl Random Video Chat — WebRTC video chat app</li>
+                <li>CS 522 Cloud-Based Chat Application — gRPC chat with background sync</li>
+                <li>E-commerce Flutter App — scalable shopping app with Firebase backend</li>
+                <li>Restaurant Management System — complete Flutter-based solution</li>
+                <li>AI-Powered Chatbot — AI-driven chatbot integrated into a mobile app</li>
+                <li>Health &amp; Fitness App — interactive fitness tracker with real-time analytics</li>
+                <li>IoT-Based Smart Home App — mobile interface for IoT-enabled devices</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="publications" class="section reveal">
+        <div class="section-header">
+            <div class="section-tag">Writing</div>
+            <h2 class="section-title">Publications</h2>
+            <p class="section-subtitle">Technical writing on Medium.</p>
+        </div>
+        <div class="card">
+            <ul class="interests-list">
+                <li class="interest-item"><a href="https://medium.com/@jayesh17296" target="_blank">"Using AI in Flutter App Development: Advantages and Disadvantages"</a> — Medium</li>
+                <li class="interest-item"><a href="https://medium.com/@jayesh17296" target="_blank">"How to Build a Custom IoT Dashboard App with Room + Firebase + IoT Device"</a> — Medium</li>
+            </ul>
         </div>
     </section>
 
     <section id="certifications" class="section reveal">
         <div class="section-header">
             <div class="section-tag">Continuous Learning</div>
-            <h2 class="section-title">Beyond the Classroom</h2>
+            <h2 class="section-title">Certifications &amp; Achievements</h2>
         </div>
         <div class="card">
             <div class="card-content">
                 <ul class="interests-list">
-                    <li class="interest-item">Active participant in Google Developer Events and DevFest, engaging with the wider developer community.</li>
-                    <li class="interest-item">Exploring mobile penetration testing and ethical hacking techniques for Android applications.</li>
-                    <li class="interest-item">Researching the integration of machine learning and AI capabilities into mobile applications.</li>
-                    <li class="interest-item">Writing technical articles on Medium to share what I learn along the way.</li>
-                    <li class="interest-item">Contributing to Flutter and Android open-source projects on GitHub.</li>
+                    <li class="interest-item">Implementing ISO/IEC 27001: Information Security Management Systems (ISMS) — British Assessment Bureau, January 2026</li>
+                    <li class="interest-item">ISO 27001 Lead Auditor Exam — British Assessment Bureau, June 2026</li>
+                    <li class="interest-item">Attended Google I/O Connect and Google DevFest (2021–2024)</li>
+                    <li class="interest-item">Speaker and mentor at local tech events</li>
+                    <li class="interest-item">Active contributor to Medium articles and open-source projects</li>
                 </ul>
             </div>
         </div>
@@ -620,33 +659,37 @@
         <div class="contact-grid">
             <div class="contact-card">
                 <div class="contact-icon">@</div>
-                <div class="contact-info">
-                    <h3>Email</h3>
-                    <a href="mailto:jayesh17296@gmail.com">jayesh17296@gmail.com</a>
-                </div>
+                <div class="contact-info"><h3>Email</h3><a href="mailto:jayesh17296@gmail.com">jayesh17296@gmail.com</a></div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">Tel</div>
+                <div class="contact-info"><h3>Phone</h3><a href="tel:+447344405498">+44 7344 405498</a></div>
             </div>
             <div class="contact-card">
                 <div class="contact-icon">&lt;/&gt;</div>
-                <div class="contact-info">
-                    <h3>GitHub</h3>
-                    <a href="https://github.com/JayeshDankhara" target="_blank">github.com/JayeshDankhara</a>
-                </div>
+                <div class="contact-info"><h3>GitHub</h3><a href="https://github.com/JayeshDankhara" target="_blank">github.com/JayeshDankhara</a></div>
             </div>
             <div class="contact-card">
                 <div class="contact-icon">in</div>
-                <div class="contact-info">
-                    <h3>LinkedIn</h3>
-                    <a href="https://www.linkedin.com/in/dankhara-jayesh-429965179/" target="_blank">Connect on LinkedIn</a>
-                </div>
+                <div class="contact-info"><h3>LinkedIn</h3><a href="https://www.linkedin.com/in/dankhara-jayesh-429965179/" target="_blank">Connect on LinkedIn</a></div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">SO</div>
+                <div class="contact-info"><h3>Stack Overflow</h3><a href="https://stackoverflow.com/users/12936324" target="_blank">800+ reputation</a></div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">M</div>
+                <div class="contact-info"><h3>Medium</h3><a href="https://medium.com/@jayesh17296" target="_blank">@jayesh17296</a></div>
             </div>
         </div>
         <div class="phd-note">
-            <strong>Note for academics and funding bodies:</strong> I'm actively seeking fully funded PhD positions (with stipend) in continental Europe, in mobile/Android security, applied machine learning for security, or related areas. Happy to share my full dissertation, CV, and transcripts on request.
+            <strong>Note for academics and funding bodies:</strong> I'm actively seeking fully funded PhD positions (with stipend) in continental Europe, in mobile/Android security, applied machine learning for security, or related areas. Happy to share my full CV, dissertation, and transcripts on request.
         </div>
     </section>
 
     <footer>
         <p>© 2026 Jayesh Dankhara — Mobile Engineer &amp; Security Researcher</p>
+        <p class="lang-line">English &amp; Hindi (fluent) · Gujarati (native)</p>
     </footer>
 
     <script>
